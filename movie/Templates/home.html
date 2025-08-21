@@ -1,3 +1,61 @@
-<!--<h1>Welcome to Home Page</h1>-->
-<h1>Welcome to Home Page, {{name}}</h1>
-<h2>This is the full home page</h2>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Formulario de búsqueda -->
+    <form action="">
+        <div class="mb-3">
+            <label for="searchMovie" class="form-label">Search for Movie:</label>
+            <input type="text" class="form-control" name="searchMovie" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Texto de búsqueda -->
+    <p>Searching for {{ searchTerm }}</p>
+
+    <!-- Grid de Cards -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for movie in movies %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ movie.image.url }}" class="card-img-top" alt="Movie image">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ movie.title }}</h5>
+                    <p class="card-text">{{ movie.description }}</p>
+                    
+                    <!-- CAMPOS NUEVOS: GÉNERO Y AÑO -->
+                    <div class="movie-details mt-3">
+                        <p class="card-text mb-1">
+                            <strong>Genre:</strong> 
+                            <span class="badge bg-secondary">{{ movie.genre|default:"Not specified" }}</span>
+                        </p>
+                        <p class="card-text">
+                            <strong>Year:</strong> 
+                            <span class="badge bg-info text-dark">{{ movie.year|default:"Unknown" }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    {% if movie.url %}
+                        <a href="{{ movie.url }}" class="btn btn-primary">Movie Link</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+            {% endfor %}
+        </div>
+        <br />
+        <br />
+        <br />
+        <h2> Join our mailing list:</h2>
+        <form action="{% url 'signup' %}">
+            <div class="mb-3">
+                <label for="email" class="form-label">Enter your email:</label>
+                <input type="email" class="form-control"  name="email" />
+            </div>
+            <button type="submit" class="btn btn-primary">Sung up</button>
+        </form>
+    </div>
+
+{% endblock content %}
